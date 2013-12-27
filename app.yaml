@@ -21,7 +21,7 @@ ignore:
   - 'spec'
 
 # How to run the app
-#run: bin/hello_from_warbler
+run: bin/app.rb
 
 # -----------------------------------------------------------------------------
 # The following options are new in Shoes 4. They don't work in Shoes 3.
