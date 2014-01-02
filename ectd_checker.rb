@@ -6,18 +6,19 @@ Shoes.app title: "eCTD MD5 Repair Tool", width: 900 do
 
   @window_slot = stack  do
 
-    flow do
+    stack height: 80 do
       background "#888"
-      title strong("eCTD MD5 Repair Tool"), align: "center"
-      para "Contact Russell Osborne of Scilucent LLC for other uses rposborne {at} scilucent.com", align: "center"
-      para "Licensed under GPLv2", align: "center", margin_bottom: 10
+      title strong("eCTD MD5 Repair Tool"), margin: 10
+
+      para "Licensed under GPLv2 For other uses contact rposborne at scilucent dot com", margin: 10
+      #image File.join(Shoes::DIR, 'static', 'logo.png')
     end
 
     @progress = progress(width: width, height: 20, margin_top: -2 )
-    flow do 
-    @submission_path_slot = para strong("You must select a submission to check"), margin: 20, width: width - 40
-    @message_slot = flow
-  end
+    stack height: 35 do
+      @submission_path_slot = para strong("You must select a submission to check"), margin: 10, width: width - 40
+      @message_slot = flow
+    end
     flow do
 
       button "Select Submission" do
@@ -127,7 +128,14 @@ Shoes.app title: "eCTD MD5 Repair Tool", width: 900 do
           status = "PASSED"
           lead_rel_path = leaf.attributes["href"].to_s
           leaf_full_path = File.join( File.dirname(file.to_s) , lead_rel_path)
-          calculated_checksum = Digest::MD5.hexdigest(File.read(leaf_full_path))
+          begin
+            calculated_checksum = Digest::MD5.hexdigest(File.read(leaf_full_path))
+          rescue SystemCallError => e
+            log "ERROR #{e.message} at #{lead_rel_path}"
+            @complete += 1
+            @failed += 1
+            next
+          end
 
           leaf_checksum = leaf.attributes["checksum"]
 

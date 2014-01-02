@@ -16,7 +16,6 @@ shortname: ectdchecker
 ignore:
   - 'vendor'
   - 'lib'
-  - 'static'
   - '*.app'
   - 'spec'
 
@@ -37,7 +36,7 @@ gems:
 # -----------------------------------------------------------------------------
 
 # The app's version number
-version: 0.0.1
+version: 0.0.2
 
 # The name of this release
 release: Mindfully
