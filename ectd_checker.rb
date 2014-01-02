@@ -73,10 +73,10 @@ Shoes.app title: "eCTD MD5 Repair Tool", width: 900 do
       self.clipboard = @report
 
       if @report_ready
-
-        @report_animate.stop
-        @report_animate.remove
-
+        if @report_animate
+          @report_animate.stop
+          @report_animate.remove
+        end
         @failed_slot.text   = strong(@failed.to_i)
         @checked_slot.text  = strong(@complete.to_i)
         @repaired_slot.text = strong(@repaired.to_i)
@@ -85,7 +85,7 @@ Shoes.app title: "eCTD MD5 Repair Tool", width: 900 do
 
     @progress_animate = animate do
       @progress.fraction = self.percent
-      if @progress.fraction == 1.0
+      if @progress_animate and @progress.fraction == 1.0
         @progress_animate.stop
         @progress_animate.remove
       end
